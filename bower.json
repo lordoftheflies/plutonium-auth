@@ -2,15 +2,15 @@
   "name": "seed-element",
   "version": "1.0.7",
   "authors": [
-    "Anonymous <anonymous@example.com>"
+    "lordoftheflies <heglas11@gmail.com>"
   ],
-  "description": "An element providing a solution to no problem in particular.",
+  "description": "Authentication view components.",
   "keywords": [
     "web-component",
     "polymer",
-    "seed"
+    "plutonium"
   ],
-  "main": "seed-element.html",
+  "main": "plutonium-auth.html",
   "license": "http://polymer.github.io/LICENSE.txt",
   "homepage": "https://github.com/<USERNAME>/seed-element/",
   "ignore": [
