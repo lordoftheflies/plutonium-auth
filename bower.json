@@ -1,5 +1,5 @@
 {
-  "name": "plutonium-auth",
+  "name": "plutonium-login-widget",
   "version": "1.0.7",
   "authors": [
     "lordoftheflies <heglas11@gmail.com>"
@@ -10,9 +10,9 @@
     "polymer",
     "plutonium"
   ],
-  "main": "plutonium-auth.html",
+  "main": "plutonium-login-widget.html",
   "license": "http://polymer.github.io/LICENSE.txt",
-  "homepage": "https://github.com/lordoftheflies/plutonium-auth",
+  "homepage": "https://github.com/lordoftheflies/plutonium-login-widget",
   "ignore": [
     "/.*",
     "/test/"
