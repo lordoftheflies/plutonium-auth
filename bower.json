@@ -1,5 +1,5 @@
 {
-  "name": "seed-element",
+  "name": "plutonium-auth",
   "version": "1.0.7",
   "authors": [
     "lordoftheflies <heglas11@gmail.com>"
@@ -12,13 +12,17 @@
   ],
   "main": "plutonium-auth.html",
   "license": "http://polymer.github.io/LICENSE.txt",
-  "homepage": "https://github.com/<USERNAME>/seed-element/",
+  "homepage": "https://github.com/lordoftheflies/plutonium-auth",
   "ignore": [
     "/.*",
     "/test/"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.2.0"
+    "polymer": "Polymer/polymer#^1.2.0",
+    "paper-card": "polymerelements/paper-card#^1.1.1",
+    "paper-input": "polymerelements/paper-input#^1.1.11",
+    "paper-button": "polymerelements/paper-button#^1.0.11",
+    "iron-form": "polymerelements/iron-form#^1.0.16"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

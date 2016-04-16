@@ -1,0 +1,180 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-form/iron-form.html">
+<link rel="import" href="../paper-card/paper-card.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-button/paper-button.html">
+
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <plutonium-auth></plutonium-auth>
+
+Example:
+
+    <plutonium-auth>
+      <h2>Hello plutonium-auth</h2>
+    </plutonium-auth>
+
+@demo demo/index.html
+@hero hero.svg
+-->
+
+<dom-module id="plutonium-auth">
+    <template>
+        <style>
+            :host {
+                display: block;
+                @apply(--layout-center);
+                @apply(--layout-center-justified);
+                @apply(--layout-horizontal);
+                /*@apply(--layout-vertical);*/
+            }
+        </style>
+        <paper-card heading="[[title]]" class="layout horizontal center">
+            <form is="iron-form" id="loginForm" method="post" action="[[authenticationUrl]]">
+                <div class="card-content">
+                    <paper-input name="login" label="[[userNameLabel]]" type="text"></paper-input>
+                    <paper-input name="password" label="[[passwordLabel]]" type="password"></paper-input>
+                </div>
+                <div class="card-actions">
+                    <paper-button raised>[[signInLabel]]</paper-button>
+                    <content></content>
+                </div>
+            </form>
+        </paper-card>
+    </template>
+    <script>
+        (function () {
+            'use strict';
+
+            Polymer({
+                is: 'plutonium-auth',
+                properties: {
+                    title: {
+                        type: String,
+                        notify: true,
+                        value: "Sign-in"
+                    },
+                    userNameLabel: {
+                        type: String,
+                        notify: true,
+                        value: "User"
+                    },
+                    passwordLabel: {
+                        type: String,
+                        notify: true,
+                        value: "Password"
+                    },
+                    signInLabel: {
+                        type: String,
+                        notify: true,
+                        value: "Sign-in"
+                    },
+                    authenticationUrl: {
+                        type: String,
+                        notify: true
+                    }
+                },
+//                listeners: {
+//                    'form.iron-form-response': 'onSignInResponse',
+//                    'form.iron-form-error': 'onSignInError'
+//                },
+//                listeners: {
+//                    'logged': 'logged'
+//                },
+                ready: function () {
+//                    this.addEventListener('blur', this.check);
+//                    this.addEventListener('keydown', this.keydown);
+                },
+//                mailcheck: function (string) {
+//                    if (string.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/) !== null) {
+//                        return true;
+//                    } else {
+//                        return false;
+//                    }
+//                },
+//                passcheck: function (string) {
+//                    if (string.match(/(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{6,16})$/) !== null) {
+//                        return true;
+//                    } else {
+//                        return false;
+//                    }
+//                },
+//                check: function () {
+//                    if (this.$.user_input.value === "" || this.$.password_input.value === "") {
+//                        this.$.core_card_main.className = "yellow";
+//                    } else if (this.mailcheck(this.$.user_input.value) && this.passcheck(this.$.password_input.value)) {
+//                        this.$.core_card_main.className = "green";
+//                    } else {
+//                        this.$.core_card_main.className = "red";
+//                    }
+//                },
+//                onNavigateToSignOn: function () {
+//                    page.redirect(app.baseUrl + "signon");
+//                },
+//                onLogin: function () {
+//                    var credentials = {
+//                        login: this.$.login.value,
+//                        password: this.$.password.value,
+//                        rememberMe: this.$.remember.checked
+//                    };
+//
+//                    console.log("Login user " + JSON.stringify(credentials));
+//                    this.fire('login', credentials);
+//
+//                    app.$.toast.text = app.locale.success_login;
+//                    app.$.toast.show();
+//
+////                    page.redirect(app.baseUrl);
+//                    this.$.form.submit();
+////                    var app = document.querySelector('#app');
+////                    app.userinfo = credentials;
+////                    console.log("Navigate to " + app.route);
+////                    app.$.mainPanel.selected = "home";
+//                },
+//                onSignInResponse: function (event, details) {
+//
+//
+//                    console.log('Sign-in response: ' + JSON.stringify(details.response));
+//                    app.sessionInfo = details.response;
+//                    page.redirect(app.baseUrl + 'mailbox');
+//                },
+//                onSignInError: function (event, details) {
+////                    var dropClasses = function (o) {
+////
+////                        for (var p in o) {
+////                            if (o[p] instanceof jQuery || o[p] instanceof HTMLElement) {
+////                                o[p] = null;
+////                            } else if (typeof o[p] == 'object')
+////                                JS.dropClasses(o[p]);
+////                        }
+////                    };
+////
+////                    
+////                    console.log('Sign-in erroEE: ' + JSON.stringify(dropClasses(event)));
+////                    console.log('Sign-in erroDD: ' + JSON.stringify(dropClasses(details)));
+//                    console.log('Sign-in erro: ' + JSON.stringify(details.response));
+//                    app.$.toast.text = app.locale.error_login;
+//                    app.$.toast.show();
+//                },
+//                keydown: function (event, detail, sender) {
+//                    if (event.keyCode === 13) {
+//                        this.check();
+//                    }
+//                }
+            });
+        })();
+    </script>
+</dom-module>

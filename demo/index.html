@@ -12,36 +12,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <title>seed-element Demo</title>
+    <title>signin-widget Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
-    <link rel="import" href="../seed-element.html">
+    <link rel="import" href="../plutonium-auth.html">
   </head>
-  <body unresolved>
+  <body unresolved fullbleed>
 
-    <p>An example of <code>&lt;seed-element&gt;</code>:</p>
+    <p>An example of <code>&lt;signin-widget&gt;</code>:</p>
 
     <p>Make words! <button id="saybtn">Say Something</button></p>
     <p>Make lasers! <button id="laserbtn">Fire lasers</button></p>
 
-    <seed-element author='{"name": "Lord Meowser", "image": "http://lorempixel.com/g/300/200/cats/"}' fancy>
-      <h2>Hello seed-element</h2>
-    </seed-element>
+    <plutonium-auth>
+    </plutonium-auth>
 
     <script>
-      var seedElement = document.querySelector('seed-element');
-
-      document.querySelector('#saybtn').addEventListener('click', function() {
-        alert(seedElement.sayHello('Hallo!'));
-      });
-
-      document.querySelector('#laserbtn').addEventListener('click', function() {
-        seedElement.fireLasers();
-      });
-
-      document.addEventListener("seed-element-lasers", function(e) {
-        console.log(e.detail.sound);
-      });
-
+      
     </script>
 
   </body>
