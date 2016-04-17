@@ -23,9 +23,15 @@ Example:
 
 Example:
 
-    <plutonium-login-widget>
-      <h2>Hello plutonium-login-widget</h2>
+    <plutonium-login-widget
+        title="My application"
+        user-name-label="My user name"
+        password-label="My password"
+        sign-in-label="My login"
+        authentication-url="">
     </plutonium-login-widget>
+
+
 
 @demo demo/index.html
 @hero hero.svg
@@ -43,13 +49,13 @@ Example:
             }
         </style>
         <paper-card heading="[[title]]" class="layout horizontal center">
-            <form is="iron-form" id="loginForm" method="post" action="[[authenticationUrl]]">
+            <form is="iron-form" id="loginForm" method="post" action$="{{authenticationUrl}}">
                 <div class="card-content">
                     <paper-input name="login" label="[[userNameLabel]]" type="text"></paper-input>
                     <paper-input name="password" label="[[passwordLabel]]" type="password"></paper-input>
                 </div>
                 <div class="card-actions">
-                    <paper-button raised>[[signInLabel]]</paper-button>
+                    <paper-button raised on-click="onSubmitLogin">[[signInLabel]]</paper-button>
                     <content></content>
                 </div>
             </form>
@@ -87,16 +93,30 @@ Example:
                         notify: true
                     }
                 },
-//                listeners: {
-//                    'form.iron-form-response': 'onSignInResponse',
-//                    'form.iron-form-error': 'onSignInError'
-//                },
+                listeners: {
+                    'loginForm.iron-form-response': 'onFormSubmitResponse',
+                    'loginForm.iron-form-error': 'onFormSubmitError'
+                },
 //                listeners: {
 //                    'logged': 'logged'
 //                },
                 ready: function () {
 //                    this.addEventListener('blur', this.check);
 //                    this.addEventListener('keydown', this.keydown);
+                },
+                
+                
+                onSubmitLogin: function (event, details) {
+                    console.log('Authentication request ...');
+                    this.$.loginForm.submit();
+                },
+                onFormSubmitResponse: function (event, details) {
+                    console.log('Authentication response.');
+                    this.fire('authentication-success', details);
+                },
+                onFormSubmitError: function (event, details) {
+                    console.log('Authentication error.');
+                    this.fire('authentication-fail', details);
                 },
 //                mailcheck: function (string) {
 //                    if (string.match(/[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/) !== null) {

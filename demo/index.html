@@ -9,23 +9,36 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <title>signin-widget Demo</title>
-    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
-    <link rel="import" href="../plutonium-login-widget.html">
-  </head>
-  <body unresolved fullbleed>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+        <title>signin-widget Demo</title>
+        <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+        <link rel="import" href="../plutonium-login-widget.html">
+    </head>
+    <body unresolved fullbleed>
 
-    <p>An example of <code>&lt;plutonium-login-widget&gt;</code>:</p>
+        <p>An example of <code>&lt;plutonium-login-widget&gt;</code>:</p>
 
     <plutonium-login-widget>
     </plutonium-login-widget>
 
+    <plutonium-login-widget
+        title="My application"
+        user-name-label="My user name"
+        password-label="My password"
+        sign-in-label="My login"
+        authentication-url="http://localhost:8080/authentication">
+    </plutonium-login-widget>
+
     <script>
-      
+        document.querySelector('plutonium-login-widget').addEventListener('authentication-success', function (e) {
+            console.log(e.detail);
+        });
+        document.querySelector('plutonium-login-widget').addEventListener('authentication-fail', function (e) {
+            console.log(e.detail.error);
+        });
     </script>
 
-  </body>
+</body>
 </html>
