@@ -50,9 +50,9 @@ Example:
         </style>
         <paper-card heading="[[title]]" class="layout horizontal center">
             <form is="iron-form" id="loginForm" method="post" action$="{{authenticationUrl}}">
-                <div class="card-content">
-                    <paper-input name="login" label="[[userNameLabel]]" type="text"></paper-input>
-                    <paper-input name="password" label="[[passwordLabel]]" type="password"></paper-input>
+                  <div class="card-content">
+                    <paper-input value="{{userName}}" name="login" label="[[userNameLabel]]" type="text"></paper-input>
+                    <paper-input value="{{password}}" name="password" label="[[passwordLabel]]" type="password"></paper-input>
                 </div>
                 <div class="card-actions">
                     <paper-button raised on-click="onSubmitLogin">[[signInLabel]]</paper-button>
@@ -104,8 +104,10 @@ Example:
 //                    this.addEventListener('blur', this.check);
 //                    this.addEventListener('keydown', this.keydown);
                 },
-                
-                
+                reset: function () {
+                    this.userName = '';
+                    this.password = '';
+                },
                 onSubmitLogin: function (event, details) {
                     console.log('Authentication request ...');
                     this.$.loginForm.submit();

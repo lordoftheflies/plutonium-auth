@@ -20,6 +20,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <p>An example of <code>&lt;plutonium-login-widget&gt;</code>:</p>
 
+        <button id="resetButton">Reset</button>
+
+
     <plutonium-login-widget>
     </plutonium-login-widget>
 
@@ -37,6 +40,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
         document.querySelector('plutonium-login-widget').addEventListener('authentication-fail', function (e) {
             console.log(e.detail.error);
+        });
+        document.querySelector('#resetButton').addEventListener('click', function (e) {
+            document.querySelector('plutonium-login-widget').reset();
         });
     </script>
 
