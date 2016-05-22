@@ -1,0 +1,86 @@
+{
+    "elements": {
+        "template": {},
+        "paper-toggle-button": {
+            "attributes": {
+                "checked": {},
+                "id": {}
+            }
+        },
+        "iron-ajax": {
+            "attributes": {
+                "on-error": {},
+                "on-response": {},
+                "id": {},
+                "url": {}
+            }
+        },
+        "gold-email-input": {
+            "attributes": {
+                "name": {},
+                "label": {},
+                "id": {}
+            }
+        },
+        "paper-dialog": {
+            "attributes": {
+                "exit-animation": {},
+                "with-backdrop": {},
+                "id": {},
+                "entry-animation": {},
+                "modal": {}
+            }
+        },
+        "demo-snippet": {},
+        "plutonium-login-widget": {},
+        "paper-button": {
+            "attributes": {
+                "dialog-dismiss": {},
+                "raised": {},
+                "id": {},
+                "on-tap": {}
+            }
+        },
+        "paper-fab": {
+            "attributes": {
+                "icon": {},
+                "dialog-confirm": {},
+                "on-tap": {},
+                "id": {},
+                "title": {}
+            }
+        },
+        "iron-icon": {
+            "attributes": {
+                "prefix": {},
+                "icon": {}
+            }
+        },
+        "dom-module": {
+            "attributes": {
+                "id": {}
+            }
+        },
+        "paper-input": {
+            "attributes": {
+                "error-message": {},
+                "pattern": {},
+                "name": {},
+                "id": {},
+                "label": {},
+                "auto-validate": {},
+                "type": {},
+                "value": {}
+            }
+        },
+        "paper-toolbar": {}
+    },
+    "attributes": {
+        "include": {
+            "context": "style"
+        },
+        "is": {
+            "context": "form"
+        }
+    }
+}

@@ -1,0 +1,31 @@
+<script>
+    window.PlutoniumBehaviors = window.PlutoniumBehaviors || {};
+    PlutoniumBehaviors.SecureApplicationBehavior = {
+        properties: {
+            session: {
+                type: Object,
+                notify: true,
+                observer: 'observeSession'
+            }
+        },
+        listeners: {
+            'loginWidget.unauthorized': 'onUnauthorized',
+            'loginWidget.authorized': 'onAuthorized'
+        },
+        observeSession: function (session) {
+            if (session === undefined || session === null) {
+                this.$.loginWidget.open();
+            }
+        },
+        onUnauthorized: function (event, detail) {
+            this.$.mainToast.text = 'Login unauthorized.';
+            this.$.mainToast.show();
+            this.$.loginWidget.open();
+        },
+        onAuthorized: function (event, detail) {
+            this.$.mainToast.text = 'Logged in sucessfully.';
+            this.$.mainToast.show();
+            this.session = detail;
+        }
+    };
+</script>

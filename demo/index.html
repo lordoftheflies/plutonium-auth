@@ -1,50 +1,43 @@
 <!doctype html>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 <html>
     <head>
+        <title>plutonium-login-widget demo</title>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-        <title>signin-widget Demo</title>
-        <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+        <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+        <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+        <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
         <link rel="import" href="../plutonium-login-widget.html">
+        <link rel="import" href="../plutonium-logon-widget.html">
+
+        <style is="custom-style" include="demo-pages-shared-styles">
+        </style>
     </head>
-    <body unresolved fullbleed>
+    <body>
 
-        <p>An example of <code>&lt;plutonium-login-widget&gt;</code>:</p>
+        <div class="vertical-section-container centered">
+            <h3>Basic plutonium-login-widget Demo</h3>
+            <demo-snippet>
+                <template>
+                    <button id="loginTrigger">Login</button>
 
-        <button id="resetButton">Reset</button>
+                    <plutonium-login-widget id="login-0"></plutonium-login-widget>
+                    <!--<plutonium-logon-widget id="logon-0"></plutonium-logon-widget>-->
 
 
-    <plutonium-login-widget>
-    </plutonium-login-widget>
+                    <script>
+                        var seedElement = document.querySelector('plutonium-login-widget');
+                        document.querySelector('#loginTrigger').addEventListener('click', function () {
+                            seedElement.open();
+                        });
+                    </script>
+                </template>
 
-    <plutonium-login-widget
-        title="My application"
-        user-name-label="My user name"
-        password-label="My password"
-        sign-in-label="My login"
-        authentication-url="http://localhost:8080/authentication">
-    </plutonium-login-widget>
+            </demo-snippet>
+        </div>
 
-    <script>
-        document.querySelector('plutonium-login-widget').addEventListener('authentication-success', function (e) {
-            console.log(e.detail);
-        });
-        document.querySelector('plutonium-login-widget').addEventListener('authentication-fail', function (e) {
-            console.log(e.detail.error);
-        });
-        document.querySelector('#resetButton').addEventListener('click', function (e) {
-            document.querySelector('plutonium-login-widget').reset();
-        });
-    </script>
 
-</body>
+    </body>
 </html>

@@ -1,0 +1,154 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-form/iron-form.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-fab/paper-fab.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../paper-toolbar/paper-toolbar.html">
+
+<dom-module id="plutonium-logon-widget">
+    <template>
+        <style include="plutonium-shared-styles">
+            :host {
+                display: block;
+            }
+        </style>
+
+        <iron-ajax 
+            id="profileIronAjax"
+            url="{{apiUrl}}authentication/{{activationCode}}/profile" 
+            on-response="handleProfileResponse"
+            on-error="handleProfileError"
+            ></iron-ajax>
+
+
+        <paper-dialog id="loginDialog" 
+                      modal entry-animation="scale-up-animation" exit-animation="scale-down-animation"
+                      with-backdrop>
+            <paper-toolbar>
+                <h2>Title</h2>
+            </paper-toolbar>
+            <form is="iron-form" id="form" verbose
+                  content-type="application/json" 
+                  method="post"
+                  handle-as="json"
+                  action="{{apiUrl}}authentication/signon">
+                <div class="layout vertical">
+                    <paper-input id="registrateTitleLabel" 
+                                 name="name" label="Name" type="text" 
+                                 auto-validate pattern="{{namePattern}}" error-message="Invalid name.">
+                    </paper-input>
+                    <gold-email-input id="registrateEmailLabel" 
+                                      name="email" label="Email address">
+                        <iron-icon icon="account-circle" prefix></iron-icon>
+                    </gold-email-input>
+                    <paper-input id="registratePhoneNumberLabel" 
+                                 name="phone" label="Phone" type="text" 
+                                 auto-validate pattern="{{phonePattern}}" error-message="Invalid phone number.">
+                        <iron-icon icon="account-circle" prefix></iron-icon>
+                    </paper-input>
+                    <paper-input id="registratePasswordLabel" 
+                                 name="password" label="Password" type="password" 
+                                 auto-validate pattern="{{passPattern}}" error-message="Invalid password. Password have to be 6-16 alphanumercal character and minimum 1 number.">
+                        <iron-icon icon="lock" prefix></iron-icon>
+                    </paper-input>
+                    <paper-input id="registratePasswordConfirmLabel" 
+                                 name="passwordConfirm" label="Password confirmation" type="password">
+                        <iron-icon icon="lock" prefix></iron-icon>
+                    </paper-input>
+                    <paper-input id="registrateCodeLabel" 
+                                 name="code" label="Activation code" type="text" 
+                                 auto-validate pattern="{{passPattern}}" error-message="Activation code."
+                                 value="{{activationCode}}">
+                        <iron-icon icon="lock" prefix></iron-icon>
+                    </paper-input>
+                </div>
+                <div class="layout horizontal">
+                    <paper-button id="registrateSignInButton" raised  on-tap="onNavigateToLogin" dialog-dismiss>Login</paper-button>
+                </div>
+            </form>
+        </paper-dialog>
+    </template>
+    <script>
+        (function () {
+            'use strict';
+
+            Polymer({
+                is: 'plutonium-logon-widget',
+                behaviors: [
+                ],
+                properties: {
+                    model: {
+                        type: Object,
+                        notify: true
+                    },
+                    activationCode: {
+                        type: String,
+                        notify: true
+                    }
+                },
+                listeners: {
+                    'form.iron-form-response': 'onRegistrationResponse',
+                    'form.iron-form-error': 'onRegistrationError',
+                    'profileIronAjax.response': 'onProfileResponse',
+                    'profileIronAjax.error': 'onProfileError',
+                    'registrate': 'onOpen'
+                },
+                open: function () {
+                    console.log(this.is + ' is opening.');
+                    this.$.loginDialog.open();
+                },
+                onOpen: function () {
+                    this.open();
+                },
+                observeActivationCode: function () {
+                    this.$.profileIronAjax.generateRequest();
+                },
+                onNavigateToLogin: function () {
+                    this.fire('login', {});
+                },
+                onRegistrationResponse: function (event, details) {
+                    console.log(this.is + ' registration succeed.');
+                    this.fire('authorized', {
+                        token: event.detail.response
+                    });
+                },
+                onRegistrationError: function (event, details) {
+                    console.log(this.is + ' navigate to registration.');
+                    this.fire('registrate', {
+                        token: this.activationCode
+                    });
+                },
+                onRegistrate: function () {
+                    console.log('Registrate user ...');
+                    this.$.form.submit();
+                },
+                handleProfileResponse: function (event, details) {
+                    this.$.form.$$('[name="name"]').value = details.response.name;
+                    this.$.form.$$('[name="email"]').value = details.response.email;
+                    this.$.form.$$('[name="phone"]').value = details.response.phone;
+//                    app.activationCode = null;
+                    console.log('Registration profile fetched successfully.');
+                },
+                handleProfileError: function (event, details) {
+                    app.$.toast.text = 'Wrong activation code.';
+                    app.$.toast.show();
+                    console.log('Registration profile fetching failed.');
+                }
+            });
+        })();
+    </script>
+</dom-module>
