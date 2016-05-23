@@ -18,7 +18,8 @@
     "neon-animation": "^1.2.3",
     "paper-styles": "^1.1.4",
     "paper-toast": "^1.2.2",
-    "iron-form-element-behavior": "^1.0.6"
+    "iron-form-element-behavior": "^1.0.6",
+    "app-route": "*"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

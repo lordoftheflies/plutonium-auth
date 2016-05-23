@@ -49,7 +49,7 @@
         onUnauthorized: function (event, detail) {
             this.$.mainToast.text = detail.message;
             this.$.mainToast.show();
-            this.$.loginWidget.open();
+            this.observeSession(this.session, this.registering);
         },
         onAuthorized: function (event, detail) {
             this.$.mainToast.text = detail.message;

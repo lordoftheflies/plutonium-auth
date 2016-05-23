@@ -37,7 +37,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <plutonium-logon-widget id="logonWidget"></plutonium-logon-widget>
         <plutonium-passwordreset-widget id="passwordResetWidget"></plutonium-passwordreset-widget>
         <plutonium-forgottenpassword-widget id="forgottenPasswordWidget"></plutonium-forgottenpassword-widget>
-        
+
         <content>
         </content>
 
@@ -57,6 +57,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     reflectToAttribute: true,
                     notify: true
                 },
+                landingPage: {
+                    type: String,
+                    reflectToAttribute: true,
+                    notify: true
+                },
                 page: {
                     type: String,
                     reflectToAttribute: true,
@@ -64,11 +69,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 }
             },
             observers: [
-                '_routePageChanged(routeData.page)',
+                '_routePageChanged(routeData.page, landingPage)',
                 '_pageChanged(page, prefix)'
             ],
-            _routePageChanged: function (page) {
-                this.page = page || 'view1';
+            _routePageChanged: function (page, landingPage) {
+                this.page = page || landingPage;
             },
             _pageChanged: function (page, prefix) {
                 // load page import on demand.
