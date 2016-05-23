@@ -41,9 +41,11 @@
             'login': 'onLogin',
             'registrate': 'onRegistration',
             'passwordreset': 'onPasswordReset',
-            'forgottenpassword': 'onForgottenPassword'
+            'forgottenpassword': 'onForgottenPassword',
+            '#sessionAjax.response': 'onSessionInitializationResponse',
+            '#sessionAjax.error': 'onSessionInitializationError'
         },
-        _cleanUp: function() {
+        _cleanUp: function () {
             this.$.passwordResetWidget.$.dialog.close();
             this.$.forgottenPasswordWidget.$.dialog.close();
             this.$.loginWidget.$.dialog.close();
@@ -95,16 +97,29 @@
         onUnauthorized: function (event, detail) {
             this._cleanUp();
             this.registering = false;
-            this.$.mainToast.text = detail.message;
-            this.$.mainToast.show();
+            if (detail.message) {
+                this.$.mainToast.text = detail.message;
+                this.$.mainToast.show();
+            }
             this._observeSession(this.session, this.registering);
         },
         onAuthorized: function (event, detail) {
             this._cleanUp();
             this.registering = false;
-            this.$.mainToast.text = detail.message;
-            this.$.mainToast.show();
+            if (detail.message) {
+                this.$.mainToast.text = detail.message;
+                this.$.mainToast.show();
+            }
             this.session = detail;
+        },
+        onSessionInitializationError: function (event, detail) {
+            console.log(this.is + ' session fetching failed.');
+            this.fire('unauthorized', {});
+        },
+        onSessionInitializationResponse: function (event, detail) {
+            console.log(this.is + ' session fetched successfully.');
+            this.fire('authorized', {});
+//            this.fire('authorized', detail.response);
         }
     };
 </script>
