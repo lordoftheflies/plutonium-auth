@@ -42,6 +42,7 @@
             'registrate': 'onRegistration',
             'passwordreset': 'onPasswordReset',
             'forgottenpassword': 'onForgottenPassword',
+            '#sessionAjax.request': 'onSessionInitializationRequest',
             '#sessionAjax.response': 'onSessionInitializationResponse',
             '#sessionAjax.error': 'onSessionInitializationError'
         },
@@ -111,6 +112,9 @@
                 this.$.mainToast.show();
             }
             this.session = detail;
+        },
+        onSessionInitializationRequest: function (event, detail) {
+            console.log(this.is + ' fetch session ...');
         },
         onSessionInitializationError: function (event, detail) {
             console.log(this.is + ' session fetching failed.');
