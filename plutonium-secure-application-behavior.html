@@ -53,6 +53,7 @@
             }
         },
         _routePageChanged: function (page, landingPage) {
+            this._observeSession(this.session, this.registering);
             this.page = page || landingPage;
         },
         _pageChanged: function (page, prefix) {
