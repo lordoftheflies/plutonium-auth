@@ -18,7 +18,9 @@
         ],
         listeners: {
             'unauthorized': 'onUnauthorized',
-            'authorized': 'onAuthorized'
+            'authorized': 'onAuthorized',
+            'login': 'onLogin',
+            'registrate': 'onRegistration'
         },
         observeSession: function (session, registering) {
             if (!session && !registering) {
@@ -30,6 +32,12 @@
                 this.$.loginWidget.close();
                 this.$.logonWidget.close();
             }
+        },
+        onLogin: function(event, detail) {
+            this.$.loginWidget.open();
+        },
+        onRegistration: function(event, detail) {
+            this.$.logonWidget.open();
         },
         onUnauthorized: function (event, detail) {
             this.$.mainToast.text = 'Login unauthorized.';
