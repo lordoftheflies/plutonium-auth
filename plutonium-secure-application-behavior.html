@@ -56,6 +56,7 @@
 
             this._cleanUp();
 
+
             if (!session && !registering) {
                 this.$.loginWidget.open();
             } else if (!session && registering) {
@@ -111,18 +112,18 @@
                 this.$.mainToast.text = detail.message;
                 this.$.mainToast.show();
             }
-            this.session = detail;
+            this.session = detail.session;
         },
         onSessionInitializationRequest: function (event, detail) {
             console.log(this.is + ' fetch session ...');
         },
         onSessionInitializationError: function (event, detail) {
             console.log(this.is + ' session fetching failed.');
-            this.fire('unauthorized', {});
+//            this.fire('unauthorized', {});
         },
         onSessionInitializationResponse: function (event, detail) {
             console.log(this.is + ' session fetched successfully.');
-            this.fire('authorized', {});
+//            this.fire('authorized', {});
 //            this.fire('authorized', detail.response);
         }
     };

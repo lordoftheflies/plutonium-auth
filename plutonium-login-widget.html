@@ -106,7 +106,9 @@
             onLoginResponse: function (event) {
                 console.log(this.is + ' login response succeed.');
                 this.fire('authorized', {
-                    token: event.detail.response
+                    token: event.detail.response.token,
+                    session: event.detail.response,
+                    message: 'Login successful.'
                 });
             },
             onLoginError: function (event) {
