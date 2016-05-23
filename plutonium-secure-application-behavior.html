@@ -70,6 +70,7 @@
             }
         },
         onLogin: function (event, detail) {
+            this.registering = false;
             this.$.loginWidget.open();
         },
         onRegistration: function (event, detail) {
@@ -80,6 +81,7 @@
             this.$.passwordResetWidget.open();
         },
         onForgottenPassword: function (event, detail) {
+            this.registering = false;
             this.$.forgottenPasswordWidget.open();
         },
         onUnauthorized: function (event, detail) {
