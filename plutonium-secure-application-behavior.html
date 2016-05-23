@@ -45,7 +45,8 @@
         _observeSession: function (session, registering) {
 
             this.$.passwordResetWidget.close();
-            this.$.forgottenPasswordWidget.open();
+            this.$.forgottenPasswordWidget.close();
+            
             if (!session && !registering) {
                 this.$.loginWidget.open();
             } else if (!session && registering) {
