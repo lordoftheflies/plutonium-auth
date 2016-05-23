@@ -1,6 +1,5 @@
 <script>
     'use strict';
-
     window.PlutoniumBehaviors = window.PlutoniumBehaviors || {};
     PlutoniumBehaviors.SecureApplicationBehavior = {
         properties: {
@@ -13,10 +12,27 @@
                 type: Boolean,
                 notify: true,
                 value: false
+            },
+            prefix: {
+                type: String,
+                reflectToAttribute: true,
+                notify: true
+            },
+            landingPage: {
+                type: String,
+                reflectToAttribute: true,
+                notify: true
+            },
+            page: {
+                type: String,
+                reflectToAttribute: true,
+                observer: '_pageChanged'
             }
         },
         observers: [
-            'observeSession(session,registering)'
+            '_observeSession(session,registering)',
+            '_routePageChanged(routeData.page, landingPage)',
+            '_pageChanged(page, prefix)'
         ],
         listeners: {
             'unauthorized': 'onUnauthorized',
@@ -26,7 +42,7 @@
             'passwordreset': 'onPasswordReset',
             'forgottenpassword': 'onForgottenPassword'
         },
-        observeSession: function (session, registering) {
+        _observeSession: function (session, registering) {
             if (!session && !registering) {
                 this.$.loginWidget.open();
             } else if (!session && registering) {
@@ -35,6 +51,14 @@
                 this.$.loginWidget.close();
                 this.$.logonWidget.close();
             }
+        },
+        _routePageChanged: function (page, landingPage) {
+            this.page = page || landingPage;
+        },
+        _pageChanged: function (page, prefix) {
+            // load page import on demand.
+            this.importHref(
+                    this.resolveUrl(prefix + '-' + page + '.html'), null, null, true);
         },
         onLogin: function (event, detail) {
             this.$.loginWidget.open();
@@ -51,7 +75,7 @@
         onUnauthorized: function (event, detail) {
             this.$.mainToast.text = detail.message;
             this.$.mainToast.show();
-            this.observeSession(this.session, this.registering);
+            this._observeSession(this.session, this.registering);
         },
         onAuthorized: function (event, detail) {
             this.$.mainToast.text = detail.message;
