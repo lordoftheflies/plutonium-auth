@@ -6,15 +6,29 @@
                 type: Object,
                 notify: true,
                 observer: 'observeSession'
+            },
+            registering: {
+                type: Boolean,
+                notify: true,
+                value: false
             }
         },
+        observers: [
+            'observeSession(session,registering)'
+        ],
         listeners: {
             'loginWidget.unauthorized': 'onUnauthorized',
             'loginWidget.authorized': 'onAuthorized'
         },
-        observeSession: function (session) {
-            if (session === undefined || session === null) {
+        observeSession: function (session, registering) {
+            if (!session && registering) {
                 this.$.loginWidget.open();
+            }
+            else if (!session && !registering){
+                this.$.logonWidget.open();
+            } else {
+                this.$.loginWidget.close();
+                this.$.logonWidget.close();
             }
         },
         onUnauthorized: function (event, detail) {
