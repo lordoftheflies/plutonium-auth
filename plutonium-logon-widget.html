@@ -29,7 +29,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <iron-ajax 
             id="profileIronAjax"
-            url="{{apiUrl}}authentication/{{activationCode}}/profile" 
+            url="[[registrationUrl]]" 
             on-response="handleProfileResponse"
             on-error="handleProfileError"
             ></iron-ajax>
@@ -75,10 +75,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                  value="{{activationCode}}">
                         <iron-icon icon="lock" prefix></iron-icon>
                     </paper-input>
+                    <div class="layout horizontal center">
+                        <paper-button id="registrateSignInButton" raised  on-tap="onNavigateToLogin" dialog-dismiss>Login</paper-button>
+                    </div>
+
                 </div>
-                <div class="layout horizontal">
-                    <paper-button id="registrateSignInButton" raised  on-tap="onNavigateToLogin" dialog-dismiss>Login</paper-button>
-                </div>
+                <paper-fab 
+                    id="signInFormAccept" 
+                    icon="arrow-forward" 
+                    title="Sign in" 
+                    on-tap="onLogin" 
+                    dialog-confirm></paper-fab>
             </form>
         </paper-dialog>
     </template>
@@ -91,11 +98,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 behaviors: [
                 ],
                 properties: {
-                    model: {
-                        type: Object,
+                    activationCode: {
+                        type: String,
                         notify: true
                     },
-                    activationCode: {
+                    registrationUrl: {
                         type: String,
                         notify: true
                     }
@@ -105,7 +112,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     'form.iron-form-error': 'onRegistrationError',
                     'profileIronAjax.response': 'onProfileResponse',
                     'profileIronAjax.error': 'onProfileError',
-                    'registrate': 'onOpen'
+//                    'registrate': 'onOpen'
                 },
                 open: function () {
                     console.log(this.is + ' is opening.');
