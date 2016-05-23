@@ -17,8 +17,8 @@
             'observeSession(session,registering)'
         ],
         listeners: {
-            'loginWidget.unauthorized': 'onUnauthorized',
-            'loginWidget.authorized': 'onAuthorized'
+            'unauthorized': 'onUnauthorized',
+            'authorized': 'onAuthorized'
         },
         observeSession: function (session, registering) {
             if (!session && registering) {
