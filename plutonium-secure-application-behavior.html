@@ -20,32 +20,39 @@
             'unauthorized': 'onUnauthorized',
             'authorized': 'onAuthorized',
             'login': 'onLogin',
-            'registrate': 'onRegistration'
+            'registrate': 'onRegistration',
+            'passwordreset': 'onPasswordReset',
+            'forgottenpassword': 'onForgottenPassword'
         },
         observeSession: function (session, registering) {
             if (!session && !registering) {
                 this.$.loginWidget.open();
-            }
-            else if (!session && registering){
+            } else if (!session && registering) {
                 this.$.logonWidget.open();
             } else {
                 this.$.loginWidget.close();
                 this.$.logonWidget.close();
             }
         },
-        onLogin: function(event, detail) {
+        onLogin: function (event, detail) {
             this.$.loginWidget.open();
         },
-        onRegistration: function(event, detail) {
+        onRegistration: function (event, detail) {
             this.$.logonWidget.open();
         },
+        onPasswordReset: function (event, detail) {
+            this.$.passwordResetWidget.open();
+        },
+        onForgottenPassword: function (event, detail) {
+            this.$.forgottenPasswordWidget.open();
+        },
         onUnauthorized: function (event, detail) {
-            this.$.mainToast.text = 'Login unauthorized.';
+            this.$.mainToast.text = detail.message;
             this.$.mainToast.show();
             this.$.loginWidget.open();
         },
         onAuthorized: function (event, detail) {
-            this.$.mainToast.text = 'Logged in sucessfully.';
+            this.$.mainToast.text = detail.message;
             this.$.mainToast.show();
             this.session = detail;
         }

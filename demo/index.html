@@ -11,6 +11,9 @@
 
         <link rel="import" href="../plutonium-login-widget.html">
         <link rel="import" href="../plutonium-logon-widget.html">
+        <link rel="import" href="../plutonium-forgottenpassword-widget.html">
+        <link rel="import" href="../plutonium-passwordreset-widget.html">
+        <link rel="import" href="../plutonium-app.html">
 
         <style is="custom-style" include="demo-pages-shared-styles">
         </style>
@@ -18,20 +21,23 @@
     <body>
 
         <div class="vertical-section-container centered">
-            <h3>Basic plutonium-login-widget Demo</h3>
+            <h3>Basic plutonium-app Demo</h3>
             <demo-snippet>
                 <template>
                     <button id="loginTrigger">Login</button>
 
-                    <plutonium-login-widget id="login-0"></plutonium-login-widget>
-                    <!--<plutonium-logon-widget id="logon-0"></plutonium-logon-widget>-->
+                    <plutonium-app>
+                        
+                    </plutonium-app>
+<!--                    <plutonium-login-widget id="login-0" prefix="demo"></plutonium-login-widget>
+                    <plutonium-logon-widget id="logon-0"></plutonium-logon-widget>-->
 
 
                     <script>
-                        var seedElement = document.querySelector('plutonium-login-widget');
-                        document.querySelector('#loginTrigger').addEventListener('click', function () {
-                            seedElement.open();
-                        });
+//                        var seedElement = document.querySelector('plutonium-login-widget');
+//                        document.querySelector('#loginTrigger').addEventListener('click', function () {
+//                            seedElement.open();
+//                        });
                     </script>
                 </template>
 

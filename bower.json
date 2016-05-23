@@ -16,7 +16,9 @@
     "paper-toolbar": "^1.1.4",
     "gold-email-input": "^1.0.7",
     "neon-animation": "^1.2.3",
-    "paper-styles": "^1.1.4"
+    "paper-styles": "^1.1.4",
+    "paper-toast": "^1.2.2",
+    "iron-form-element-behavior": "^1.0.6"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

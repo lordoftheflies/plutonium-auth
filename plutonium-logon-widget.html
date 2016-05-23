@@ -39,15 +39,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       modal entry-animation="scale-up-animation" exit-animation="scale-down-animation"
                       with-backdrop>
             <paper-toolbar>
-                <h2>Title</h2>
+                <h2 id="registrationTitle">Sign on</h2>
             </paper-toolbar>
             <form is="iron-form" id="form" verbose
                   content-type="application/json" 
                   method="post"
                   handle-as="json"
-                  action="{{apiUrl}}authentication/signon">
+                  action="[[registrationUrl]]">
                 <div class="layout vertical">
-                    <paper-input id="registrateTitleLabel" 
+                    <paper-input id="registrateNameLabel" 
                                  name="name" label="Name" type="text" 
                                  auto-validate pattern="{{namePattern}}" error-message="Invalid name.">
                     </paper-input>
@@ -76,15 +76,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         <iron-icon icon="lock" prefix></iron-icon>
                     </paper-input>
                     <div class="layout horizontal center">
-                        <paper-button id="registrateSignInButton" raised  on-tap="onNavigateToLogin" dialog-dismiss>Login</paper-button>
+                        <paper-button id="registrateLoginButton" raised  on-tap="onNavigateToLogin" dialog-dismiss>Sign in</paper-button>
                     </div>
 
                 </div>
                 <paper-fab 
-                    id="signInFormAccept" 
+                    id="registrateButton" 
                     icon="arrow-forward" 
-                    title="Sign in" 
-                    on-tap="onLogin" 
+                    title="Sign on" 
+                    on-tap="onRegistrate" 
                     dialog-confirm></paper-fab>
             </form>
         </paper-dialog>
