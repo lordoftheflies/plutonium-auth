@@ -43,6 +43,9 @@
             'forgottenpassword': 'onForgottenPassword'
         },
         _observeSession: function (session, registering) {
+
+            this.$.passwordResetWidget.close();
+            this.$.forgottenPasswordWidget.open();
             if (!session && !registering) {
                 this.$.loginWidget.open();
             } else if (!session && registering) {
