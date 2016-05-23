@@ -36,7 +36,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             ></iron-ajax>
 
 
-        <paper-dialog id="loginDialog" 
+        <paper-dialog id="dialog" 
                       modal entry-animation="scale-up-animation" exit-animation="scale-down-animation"
                       with-backdrop>
             <paper-toolbar>
@@ -117,7 +117,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 },
                 open: function () {
                     console.log(this.is + ' is opening.');
-                    this.$.loginDialog.open();
+                    this.$.dialog.open();
                 },
                 onOpen: function () {
                     this.open();
