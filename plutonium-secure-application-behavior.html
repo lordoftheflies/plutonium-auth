@@ -21,10 +21,10 @@
             'authorized': 'onAuthorized'
         },
         observeSession: function (session, registering) {
-            if (!session && registering) {
+            if (!session && !registering) {
                 this.$.loginWidget.open();
             }
-            else if (!session && !registering){
+            else if (!session && registering){
                 this.$.logonWidget.open();
             } else {
                 this.$.loginWidget.close();
