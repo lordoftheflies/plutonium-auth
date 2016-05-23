@@ -56,9 +56,11 @@
             this.page = page || landingPage;
         },
         _pageChanged: function (page, prefix) {
-            // load page import on demand.
-            this.importHref(
-                    this.resolveUrl(prefix + '-' + page + '.html'), null, null, true);
+            if (prefix) {
+                // load page import on demand.
+                this.importHref(
+                        this.resolveUrl(prefix + '-' + page + '.html'), null, null, true);
+            }
         },
         onLogin: function (event, detail) {
             this.$.loginWidget.open();

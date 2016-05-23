@@ -29,7 +29,7 @@
             </paper-toolbar>
             <form id="form" is="iron-form" verbose content-type="application/json" handle-as="json" method="post" action="[[authenticationUrl]]">
                 <div class="layout vertical">
-                    <gold-email-input id="loginEmailLabel" label="Email address" name="email" type="email" value="{{userName}}">
+                    <gold-email-input id="loginEmailLabel" label="Email address" name="email" type="email">
                         <iron-icon icon="account-circle" prefix></iron-icon>
                     </gold-email-input>
                     <paper-input id="loginPasswordLabel" label="Password" name="password" type="password">
@@ -60,10 +60,6 @@
             is: 'plutonium-login-widget',
             properties: {
                 authenticationUrl: {
-                    type: String,
-                    notify: true
-                },
-                userName: {
                     type: String,
                     notify: true
                 },
@@ -115,9 +111,6 @@
             },
             onLoginError: function (event) {
                 console.log(this.is + ' login response failed.');
-//                this.fire('unauthorized', {
-//                    code: event.detail
-//                });
                 this.fire('unauthorized', {
                     message: 'Login failed. Try again.'
                 });
