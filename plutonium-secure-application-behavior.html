@@ -46,7 +46,9 @@
 
             this.$.passwordResetWidget.$.dialog.close();
             this.$.forgottenPasswordWidget.$.dialog.close();
-            
+            this.$.loginWidget.$.dialog.close();
+            this.$.logonWidget.$.dialog.close();
+
             if (!session && !registering) {
                 this.$.loginWidget.open();
             } else if (!session && registering) {
