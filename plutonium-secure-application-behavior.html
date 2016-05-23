@@ -67,6 +67,7 @@
             this.$.loginWidget.open();
         },
         onRegistration: function (event, detail) {
+            this.registering = true;
             this.$.logonWidget.open();
         },
         onPasswordReset: function (event, detail) {
@@ -76,11 +77,13 @@
             this.$.forgottenPasswordWidget.open();
         },
         onUnauthorized: function (event, detail) {
+            this.registering = false;
             this.$.mainToast.text = detail.message;
             this.$.mainToast.show();
             this._observeSession(this.session, this.registering);
         },
         onAuthorized: function (event, detail) {
+            this.registering = false;
             this.$.mainToast.text = detail.message;
             this.$.mainToast.show();
             this.session = detail;
