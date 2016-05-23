@@ -44,16 +44,16 @@
         },
         _observeSession: function (session, registering) {
 
-            this.$.passwordResetWidget.close();
-            this.$.forgottenPasswordWidget.close();
+            this.$.passwordResetWidget.$.dialog.close();
+            this.$.forgottenPasswordWidget.$.dialog.close();
             
             if (!session && !registering) {
                 this.$.loginWidget.open();
             } else if (!session && registering) {
                 this.$.logonWidget.open();
             } else {
-                this.$.loginWidget.close();
-                this.$.logonWidget.close();
+                this.$.loginWidget.$.dialog.close();
+                this.$.logonWidget.$.dialog.close();
             }
         },
         _routePageChanged: function (page, landingPage) {
