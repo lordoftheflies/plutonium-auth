@@ -42,9 +42,9 @@
             'registrate': 'onRegistration',
             'passwordreset': 'onPasswordReset',
             'forgottenpassword': 'onForgottenPassword',
-            '#sessionAjax.request': 'onSessionInitializationRequest',
-            '#sessionAjax.response': 'onSessionInitializationResponse',
-            '#sessionAjax.error': 'onSessionInitializationError'
+            'sessionAjax.request': 'onSessionInitializationRequest',
+            'sessionAjax.response': 'onSessionInitializationResponse',
+            'sessionAjax.error': 'onSessionInitializationError'
         },
         _cleanUp: function () {
             this.$.passwordResetWidget.$.dialog.close();
