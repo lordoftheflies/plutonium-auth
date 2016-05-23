@@ -42,12 +42,15 @@
             'passwordreset': 'onPasswordReset',
             'forgottenpassword': 'onForgottenPassword'
         },
-        _observeSession: function (session, registering) {
-
+        _cleanUp: function() {
             this.$.passwordResetWidget.$.dialog.close();
             this.$.forgottenPasswordWidget.$.dialog.close();
             this.$.loginWidget.$.dialog.close();
             this.$.logonWidget.$.dialog.close();
+        },
+        _observeSession: function (session, registering) {
+
+            this._cleanUp();
 
             if (!session && !registering) {
                 this.$.loginWidget.open();
@@ -71,26 +74,32 @@
         },
         onLogin: function (event, detail) {
             this.registering = false;
+            this._cleanUp();
             this.$.loginWidget.open();
         },
         onRegistration: function (event, detail) {
             this.registering = true;
+            this._cleanUp();
             this.$.logonWidget.open();
         },
         onPasswordReset: function (event, detail) {
+            this._cleanUp();
             this.$.passwordResetWidget.open();
         },
         onForgottenPassword: function (event, detail) {
+            this._cleanUp();
             this.registering = false;
             this.$.forgottenPasswordWidget.open();
         },
         onUnauthorized: function (event, detail) {
+            this._cleanUp();
             this.registering = false;
             this.$.mainToast.text = detail.message;
             this.$.mainToast.show();
             this._observeSession(this.session, this.registering);
         },
         onAuthorized: function (event, detail) {
+            this._cleanUp();
             this.registering = false;
             this.$.mainToast.text = detail.message;
             this.$.mainToast.show();
