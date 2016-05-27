@@ -30,7 +30,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <iron-ajax 
             id="profileIronAjax"
-            url="[[registrationUrl]]" 
+            url="[[profileUrl]]" 
             on-response="handleProfileResponse"
             on-error="handleProfileError"
             ></iron-ajax>
@@ -104,6 +104,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         notify: true
                     },
                     registrationUrl: {
+                        type: String,
+                        notify: true
+                    },
+                    profileUrl: {
                         type: String,
                         notify: true
                     }
