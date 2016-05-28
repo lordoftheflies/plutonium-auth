@@ -60,6 +60,7 @@
             if (!session && !registering) {
                 this.$.loginWidget.open();
             } else if (!session && registering) {
+                this.$.logonWidget.$.profileIronAjax.generateRequest();
                 this.$.logonWidget.open();
             } else {
                 this.$.loginWidget.$.dialog.close();
