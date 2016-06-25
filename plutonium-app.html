@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../app-route/app-location.html">
 <link rel="import" href="../app-route/app-route.html">
 <link rel="import" href="../paper-toast/paper-toast.html">
+<link rel="import" href="../polymer-cookie/polymer-cookie.html">
 <link rel="import" href="plutonium-secure-application-behavior.html">
 <link rel="import" href="plutonium-login-widget.html">
 <link rel="import" href="plutonium-logon-widget.html">
@@ -33,10 +34,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             data="{{routeData}}"
             tail="{{subroute}}"></app-route>
 
-<!--        <plutonium-login-widget id="loginWidget"></plutonium-login-widget>
-        <plutonium-logon-widget id="logonWidget"></plutonium-logon-widget>
-        <plutonium-passwordreset-widget id="passwordResetWidget"></plutonium-passwordreset-widget>
-        <plutonium-forgottenpassword-widget id="forgottenPasswordWidget"></plutonium-forgottenpassword-widget>-->
+        <polymer-cookie
+            id="rememberMeCookie"
+            name="rememberMe"
+            value="{{rememberMe}}"
+            time="1"
+            format="d"
+            auto-set>
+        </polymer-cookie>
+
+                <plutonium-login-widget id="loginWidget"></plutonium-login-widget>
+                <plutonium-logon-widget id="logonWidget"></plutonium-logon-widget>
+                <plutonium-passwordreset-widget id="passwordResetWidget"></plutonium-passwordreset-widget>
+                <plutonium-forgottenpassword-widget id="forgottenPasswordWidget"></plutonium-forgottenpassword-widget>
 
         <content>
         </content>

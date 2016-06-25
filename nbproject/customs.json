@@ -1,6 +1,7 @@
 {
     "elements": {
         "template": {},
+        "polymer-cookie": {},
         "paper-toggle-button": {
             "attributes": {
                 "checked": {},
