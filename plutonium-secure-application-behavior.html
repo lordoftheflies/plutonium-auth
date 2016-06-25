@@ -56,7 +56,7 @@
             this.$.forgottenPasswordWidget.$.dialog.close();
             this.$.loginWidget.$.dialog.close();
             this.$.logonWidget.$.dialog.close();
-            
+
             this.rememberMe = Boolean(this.$.rememberMeCookie.readCookie());
             this.token = this.$.tokenCookie.readCookie();
         },
@@ -121,9 +121,15 @@
                 this.$.mainToast.text = detail.message;
                 this.$.mainToast.show();
             }
-            this.session = detail.session;
+            // Save cookie for remember me.
             this.$.rememberMeCookie.createCookie();
-            this.$.tokenCookie.createCookie();
+            // Setup session.
+            this.session = detail.session;
+            // Setup token cookie if credentials should stored.
+            if (this.rememberMe) {
+                this.token = this.session.token;
+                this.$.tokenCookie.createCookie();
+            }
         },
         onSessionInitializationRequest: function (event, detail) {
             console.log(this.is + ' fetch session ...');
