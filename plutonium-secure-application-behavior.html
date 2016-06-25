@@ -56,6 +56,8 @@
             this.$.forgottenPasswordWidget.$.dialog.close();
             this.$.loginWidget.$.dialog.close();
             this.$.logonWidget.$.dialog.close();
+            
+            this.rememberMe = Boolean(this.$.rememberMeCookie.readCookie());
         },
         _observeSession: function (session, registering) {
 
