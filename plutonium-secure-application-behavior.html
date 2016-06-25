@@ -119,6 +119,7 @@
                 this.$.mainToast.show();
             }
             this.session = detail.session;
+            this.$.rememberMeCookie.createCookie();
         },
         onSessionInitializationRequest: function (event, detail) {
             console.log(this.is + ' fetch session ...');
