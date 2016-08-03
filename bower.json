@@ -1,7 +1,7 @@
 {
-  "name": "plutonium-login-widget",
+  "name": "plutonium-authentication",
   "description": "Login widget.",
-  "main": "plutonium-login-widget.html",
+  "main": "plutonium-authentication-elements.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
     "iron-icon": "^1.0.8",
