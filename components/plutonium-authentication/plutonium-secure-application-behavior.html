@@ -1,0 +1,147 @@
+<script>
+    'use strict';
+    window.PlutoniumBehaviors = window.PlutoniumBehaviors || {};
+    PlutoniumBehaviors.SecureApplicationBehavior = {
+        properties: {
+            session: {
+                type: Object,
+                notify: true,
+                reflectToAttribute: true,
+                value: null
+            },
+            rememberMe: {
+                type: Boolean,
+                notify: true,
+                value: false
+            },
+            registering: {
+                type: Boolean,
+                notify: true,
+                value: false
+            },
+            prefix: {
+                type: String,
+                reflectToAttribute: true,
+                notify: true
+            },
+            landingPage: {
+                type: String,
+                reflectToAttribute: true,
+                notify: true
+            },
+            page: {
+                type: String,
+                reflectToAttribute: true,
+                observer: '_pageChanged'
+            }
+        },
+        observers: [
+            '_observeSession(session,registering)',
+            '_routePageChanged(routeData.page, landingPage)',
+            '_pageChanged(page, prefix)'
+        ],
+        listeners: {
+            'unauthorized': 'onUnauthorized',
+            'authorized': 'onAuthorized',
+            'login': 'onLogin',
+            'registrate': 'onRegistration',
+            'passwordreset': 'onPasswordReset',
+            'forgottenpassword': 'onForgottenPassword',
+            'sessionAjax.request': 'onSessionInitializationRequest',
+            'sessionAjax.response': 'onSessionInitializationResponse',
+            'sessionAjax.error': 'onSessionInitializationError'
+        },
+        _cleanUp: function () {
+            this.$.passwordResetWidget.$.dialog.close();
+            this.$.forgottenPasswordWidget.$.dialog.close();
+            this.$.loginWidget.$.dialog.close();
+            this.$.logonWidget.$.dialog.close();
+
+            this.rememberMe = Boolean(this.$.rememberMeCookie.readCookie());
+            this.token = this.$.tokenCookie.readCookie();
+        },
+        _observeSession: function (session, registering) {
+
+            this._cleanUp();
+
+
+            if (!session && !registering) {
+                this.$.loginWidget.open();
+            } else if (!session && registering) {
+                this.$.logonWidget.$.profileIronAjax.generateRequest();
+                this.$.logonWidget.open();
+            } else {
+                this.$.loginWidget.$.dialog.close();
+                this.$.logonWidget.$.dialog.close();
+            }
+        },
+        _routePageChanged: function (page, landingPage) {
+            this._observeSession(this.session, this.registering);
+            this.page = page || landingPage;
+        },
+        _pageChanged: function (page, prefix) {
+            if (prefix) {
+                // load page import on demand.
+                this.importHref(
+                        this.resolveUrl(prefix + '-' + page + '.html'), null, null, true);
+            }
+        },
+        onLogin: function (event, detail) {
+            this.registering = false;
+            this._cleanUp();
+            this.$.loginWidget.open();
+        },
+        onRegistration: function (event, detail) {
+            this.registering = true;
+            this._cleanUp();
+            this.$.logonWidget.open();
+        },
+        onPasswordReset: function (event, detail) {
+            this._cleanUp();
+            this.$.passwordResetWidget.open();
+        },
+        onForgottenPassword: function (event, detail) {
+            this._cleanUp();
+            this.registering = false;
+            this.$.forgottenPasswordWidget.open();
+        },
+        onUnauthorized: function (event, detail) {
+            this._cleanUp();
+            this.registering = false;
+            if (detail.message) {
+                this.$.mainToast.text = detail.message;
+                this.$.mainToast.show();
+            }
+            this._observeSession(this.session, this.registering);
+        },
+        onAuthorized: function (event, detail) {
+            this._cleanUp();
+            this.registering = false;
+            if (detail.message) {
+                this.$.mainToast.text = detail.message;
+                this.$.mainToast.show();
+            }
+            // Save cookie for remember me.
+            this.$.rememberMeCookie.createCookie();
+            // Setup session.
+            this.session = detail.session;
+            // Setup token cookie if credentials should stored.
+            if (this.rememberMe) {
+                this.token = this.session.token;
+                this.$.tokenCookie.createCookie();
+            }
+        },
+        onSessionInitializationRequest: function (event, detail) {
+            console.log(this.is + ' fetch session ...');
+        },
+        onSessionInitializationError: function (event, detail) {
+            console.log(this.is + ' session fetching failed.');
+//            this.fire('unauthorized', {});
+        },
+        onSessionInitializationResponse: function (event, detail) {
+            console.log(this.is + ' session fetched successfully.');
+//            this.fire('authorized', {});
+//            this.fire('authorized', detail.response);
+        }
+    };
+</script>

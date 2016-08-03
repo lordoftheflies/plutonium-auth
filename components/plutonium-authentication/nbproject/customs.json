@@ -1,0 +1,121 @@
+{
+    "elements": {
+        "template": {},
+        "polymer-cookie": {},
+        "paper-toggle-button": {
+            "attributes": {
+                "checked": {},
+                "id": {}
+            }
+        },
+        "iron-ajax": {
+            "attributes": {
+                "on-error": {},
+                "on-response": {},
+                "id": {},
+                "url": {}
+            }
+        },
+        "app-route": {},
+        "plutonium-logon-widget": {
+            "attributes": {
+                "id": {}
+            }
+        },
+        "content": {},
+        "iron-component-page": {},
+        "gold-email-input": {
+            "attributes": {
+                "name": {},
+                "label": {},
+                "id": {}
+            }
+        },
+        "paper-dialog": {
+            "attributes": {
+                "exit-animation": {},
+                "with-backdrop": {},
+                "id": {},
+                "entry-animation": {},
+                "modal": {}
+            }
+        },
+        "demo-snippet": {},
+        "plutonium-login-widget": {
+            "attributes": {
+                "id": {}
+            }
+        },
+        "plutonium-app": {},
+        "paper-button": {
+            "attributes": {
+                "dialog-dismiss": {},
+                "raised": {},
+                "id": {},
+                "on-tap": {}
+            }
+        },
+        "paper-fab": {
+            "attributes": {
+                "icon": {},
+                "dialog-confirm": {},
+                "on-tap": {},
+                "id": {},
+                "title": {}
+            }
+        },
+        "iron-icon": {
+            "attributes": {
+                "prefix": {},
+                "icon": {}
+            }
+        },
+        "plutonium-passwordreset-widget": {
+            "attributes": {
+                "id": {}
+            }
+        },
+        "paper-toast": {
+            "attributes": {
+                "id": {},
+                "text": {}
+            }
+        },
+        "dom-module": {
+            "attributes": {
+                "id": {}
+            }
+        },
+        "app-location": {
+            "attributes": {
+                "route": {}
+            }
+        },
+        "paper-input": {
+            "attributes": {
+                "error-message": {},
+                "pattern": {},
+                "name": {},
+                "id": {},
+                "label": {},
+                "auto-validate": {},
+                "type": {},
+                "value": {}
+            }
+        },
+        "plutonium-forgottenpassword-widget": {
+            "attributes": {
+                "id": {}
+            }
+        },
+        "paper-toolbar": {}
+    },
+    "attributes": {
+        "include": {
+            "context": "style"
+        },
+        "is": {
+            "context": "form"
+        }
+    }
+}
