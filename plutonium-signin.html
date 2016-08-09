@@ -1,0 +1,261 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../iron-form/iron-form.html">
+<link rel="import" href="../paper-card/paper-card.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../polymer-cookie/polymer-cookie.html">
+<link rel="import" href="uaa-icons.html">
+
+<!--
+`<plutonium-signin>` injects a healthy dose of awesome into your page.
+
+    
+
+In typical use, just slap some `<plutonium-signin>` at the top of your body:
+
+    <body>
+      <plutonium-signin
+            app-name="Test application"
+            domain-name="Test domain"></plutonium-signin>
+
+    
+
+Wham! It's all awesome now!
+
+    @group Plutonium Authentication
+    @demo demo/plutonium-signin-index.html
+-->
+<dom-module id="plutonium-signin">
+    <template>
+        <style include="iron-flex iron-flex-alignment">
+            :host {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: var(--paper-purple-500);
+                transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 1;
+                color: var(--paper-purple-50);
+                @apply(--layout);
+                @apply(--layout-center-center);
+            }
+
+            :host div.header h1 {
+
+                color: var(--paper-purple-50);
+            }
+            :host div.header {
+                position: absolute;
+                top: 0;
+                left: 10px;
+                right: 10px;
+                background-color: var(--paper-purple-500);
+                transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 1;
+                @apply(--layout);
+                @apply(--layout-center-center);
+            }
+
+
+
+            :host([signed-in]) {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            paper-button > * {
+                vertical-align: middle;
+                text-transloginForm: none;
+            }
+
+            paper-card {
+                background-color: white;
+            }
+        </style>
+
+        <polymer-cookie id="csrfTokenCookie" name="XSRF-TOKEN" value="{{_csrfToken}}" time="1" loginFormat="d"></polymer-cookie>
+        <polymer-cookie id="sessionTokenCookie" name="SESSION" value="{{sessionToken}}" time="1" loginFormat="d"></polymer-cookie>
+
+        <div class="header">
+            <h1>[[domainName]]</h1>
+        </div>
+        <form is="iron-form" id="loginForm" method="post" headers="[[headers]]" action="[[authenticationUrl]]" content-type="application/json" class="content">
+            <input type="hidden" name="_csrf" value="[[_csrfToken]]" />
+            <paper-card heading="Sign-in to [[appName]]" elevation="1">
+                <div class="card-content">
+                    <paper-input label="Login" name="username" type="text" value="{{_credentials.username}}"></paper-input>
+                    <paper-input label="Password" name="password" type="password" value="{{_credentials.password}}"></paper-input>
+                    <paper-toggle-button>Remember me</paper-toggle-button>
+                    <div class="layout horizontal">
+                        <a class="layout start" on-tap="toForgottenPassword">
+                            <iron-icon icon="account-circle"></iron-icon>
+                            <span>Forgotten password</span>
+                        </a>
+                        <a class="layout end" on-tap="toSignUp">
+                            <iron-icon icon="account-circle"></iron-icon>
+                            <span>Sign up</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-actions layout horizontal">
+                    <paper-icon-button  icon="uaa-icons:google" on-tap="signInWithGoogle" raised>
+                    </paper-icon-button>
+                    <paper-icon-button  icon="uaa-icons:facebook" on-tap="signInWithFacebook" raised>
+                    </paper-icon-button>
+                    <paper-icon-button icon="uaa-icons:github" on-tap="signInWithGithub" raised>
+                    </paper-icon-button>
+                    <paper-button class="layout end" on-tap="signIn" raised>
+                        Sign in
+                    </paper-button>
+                </div>
+            </paper-card>
+        </form>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'plutonium-signin',
+            properties: {
+                /** 
+                 * Name of the organoziational domain. 
+                 */
+                domainName: {
+                    type: String,
+                    reflectToAttribute: true,
+                    value: 'Cherubits'
+                },
+                /**
+                 * Name of the application.
+                 */
+                appName: {
+                    type: String,
+                    reflectToAttribute: true,
+                    value: 'Organism'
+                },
+                /**
+                 * Callback URL, where should the authenticated user navigated.
+                 */
+                callbackUrl: {
+                    type: String,
+                    notify: true,
+                    value: '/ui/'
+                },
+                /**
+                 * URL for authentication.
+                 */
+                authenticationUrl: {
+                    type: String,
+                    notify: true,
+                    value: '/login'
+                },
+                /**
+                 * URL for get the session object.
+                 */
+                sessionUrl: {
+                    type: String,
+                    notify: true,
+                    value: '/user'
+                },
+                disabled: {
+                    type: Boolean,
+                    reflectToAttribute: true,
+                    value: false
+                },
+                /**
+                 * True, if the user signed in.
+                 */
+                signedIn: {
+                    type: Boolean,
+                    reflectToAttribute: true,
+                    value: false
+                },
+                /**
+                 * HTTP headers.
+                 *
+                 * @type {{'authentication: string', 'X-XSRF-TOKEN': string, 'X-Requested-With': string}}
+                 */
+                headers: {
+                    type: Object,
+                    reflectToAttribute: true,
+                    notify: true
+                },
+                /**
+                 * Cross-site request forgery token.
+                 */
+                _csrfToken: {
+                    type: String,
+                    notify: true
+                },
+                /**
+                 * Session token.
+                 */
+                _sessionToken: {
+                    type: String,
+                    notify: true
+                },
+                /**
+                 * Object for store credentials in memory.
+                 * @type {{username: string, password: string}}
+                 */
+                _credentials: {
+                    type: Object,
+                    notify: true,
+                    value: {
+                        username: null,
+                        password: null
+                    }
+                }
+            },
+            observers: [
+                'observeAuthenticationHeaders(_credentials.username, _credentials.password)'
+            ],
+            listeners: {
+                'iron-loginForm-response': 'onAuthenticationResponse',
+                'iron-loginForm-error': 'onAuthenticationError'
+            },
+            ready: function () {
+                this._sessionToken = this.$.sessionTokenCookie.readCookie();
+                this._csrfToken = this.$.csrfTokenCookie.readCookie();
+            },
+            observeAuthenticationHeaders: function () {
+                this.headers = {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-XSRF-TOKEN': this._csrfToken,
+                    'authorization': "Basic " + btoa(this._credentials.username + ":" + this._credentials.password)
+                };
+                console.log(this.is, ' compute HTTP headers: ', this.headers);
+            },
+            onAuthenticationResponse: function (event, detail) {
+                console.log(this.is, ' authentication loginForm response', detail);
+//                location.pathname = '/ui/';
+                location.pathname = this.callbackUrl;
+            },
+            onAuthenticationError: function (event, detail) {
+                console.log(this.is, ' authentication loginForm error', detail);
+            },
+            signIn: function () {
+                console.log(this.is, ' sign-in action.');
+                this.$.loginForm.submit();
+            },
+            signInViaEmail: function () {
+                console.log('Fire "sign-in-via-email" event.');
+                this.fire('sign-in-via-email', null, {
+                    bubbles: false
+                });
+            },
+            signInWithGoogle: function () {
+                console.log('Fire "sign-in-with-google" event.');
+                this.fire('sign-in-with-google', null, {
+                    bubbles: false
+                });
+            }
+        });
+    </script>
+</dom-module>
