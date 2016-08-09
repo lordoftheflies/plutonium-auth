@@ -93,6 +93,8 @@
         },
         onRegistration: function (event, detail) {
             this.registering = true;
+            this.$.rememberMeCookie.readCookie();
+            this.$.tokenCookie.eraseCookie();
             this._cleanUp();
             this.$.logonWidget.open();
         },
