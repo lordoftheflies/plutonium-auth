@@ -260,6 +260,7 @@ Custom property | Description | Default
                 console.log(this.is, ' authentication loginForm response', detail);
 //                location.pathname = '/ui/';
                 location.pathname = this.callbackUrl;
+                this.signedIn = true;
             },
             /**
              * Handles failed authentication ajax requests.
@@ -269,6 +270,7 @@ Custom property | Description | Default
              */
             onAuthenticationError: function (event, detail) {
                 console.log(this.is, ' authentication loginForm error', detail);
+                this.signedIn = false;
             },
             /**
              * Submit credentials to the `authenticationUrl`.
