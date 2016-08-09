@@ -27,6 +27,17 @@ In typical use, just slap some `<plutonium-signin>` at the top of your body:
 
 Wham! It's all awesome now!
 
+    ### Styling
+
+`<plutonium-signin>` provides the following custom properties and mixins for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--plutonium-theme-color-main` | Foreground color of the page | Based on the button's color
+`--plutonium-theme-color-minor` | Foreground color of the card | Based on the button's color
+`--plutonium-theme-bg-minor` | Background color of the page. | `{}`
+`--plutonium-theme-bg-main` | Background color of the card. | `{}`
+
     @group Plutonium Authentication
     @demo demo/plutonium-signin-index.html
 -->
@@ -39,24 +50,24 @@ Wham! It's all awesome now!
                 left: 0;
                 right: 0;
                 bottom: 0;
-                background-color: var(--paper-purple-500);
+                background-color: var(--plutonium-theme-bg-main, --primary-color);
                 transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 z-index: 1;
-                color: var(--paper-purple-50);
+                color: var(--plutonium-theme-color-minor, --primary-text-color);
                 @apply(--layout);
                 @apply(--layout-center-center);
             }
 
             :host div.header h1 {
-
-                color: var(--paper-purple-50);
+                color: var(--plutonium-theme-color-main, --primary-background-color);
+                
             }
             :host div.header {
                 position: absolute;
                 top: 0;
                 left: 10px;
                 right: 10px;
-                background-color: var(--paper-purple-500);
+                background-color: var(--plutonium-theme-bg-main, --primary-color);
                 transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 z-index: 1;
                 @apply(--layout);
@@ -76,7 +87,7 @@ Wham! It's all awesome now!
             }
 
             paper-card {
-                background-color: white;
+                background-color: var(--plutonium-theme-bg-minor, --primary-background-color);
             }
         </style>
 
@@ -214,7 +225,7 @@ Wham! It's all awesome now!
                 }
             },
             observers: [
-                'observeAuthenticationHeaders(_credentials.username, _credentials.password)'
+                'observeAuthenticationHeaders(_credentials.username, _credentials.password, _csrfToken)'
             ],
             listeners: {
                 'iron-loginForm-response': 'onAuthenticationResponse',
@@ -224,26 +235,54 @@ Wham! It's all awesome now!
                 this._sessionToken = this.$.sessionTokenCookie.readCookie();
                 this._csrfToken = this.$.csrfTokenCookie.readCookie();
             },
-            observeAuthenticationHeaders: function () {
+            /**
+             * Compute HTTP headers.
+             *
+             * @param {string} Username.
+             * @param {string} Password.
+             * @param {string} Cross-site reference forgery token.
+             */
+            observeAuthenticationHeaders: function (username, password, csrfToken) {
                 this.headers = {
                     'X-Requested-With': 'XMLHttpRequest',
-                    'X-XSRF-TOKEN': this._csrfToken,
-                    'authorization': "Basic " + btoa(this._credentials.username + ":" + this._credentials.password)
+                    'X-XSRF-TOKEN': csrfToken,
+                    'authorization': "Basic " + btoa(username + ":" + password)
                 };
                 console.log(this.is, ' compute HTTP headers: ', this.headers);
             },
+            /**
+             * Handles successful authentication ajax requests. Navigate to the page descibed `callbackkUrl`.
+             * 
+             * @param {type} event
+             * @param {type} detail
+             */
             onAuthenticationResponse: function (event, detail) {
                 console.log(this.is, ' authentication loginForm response', detail);
 //                location.pathname = '/ui/';
                 location.pathname = this.callbackUrl;
             },
+            /**
+             * Handles failed authentication ajax requests.
+             * 
+             * @param {type} event
+             * @param {type} detail
+             */
             onAuthenticationError: function (event, detail) {
                 console.log(this.is, ' authentication loginForm error', detail);
             },
+            /**
+             * Submit credentials to the `authenticationUrl`.
+             */
             signIn: function () {
                 console.log(this.is, ' sign-in action.');
                 this.$.loginForm.submit();
             },
+            /**
+             * Fired when `element` changes its awesomeness level.
+             *
+             * @event awesome-change
+             * @param {number} newAwesome New level of awesomeness.
+             */
             signInViaEmail: function () {
                 console.log('Fire "sign-in-via-email" event.');
                 this.fire('sign-in-via-email', null, {
