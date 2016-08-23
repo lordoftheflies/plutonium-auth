@@ -1,0 +1,118 @@
+
+<!--
+@license
+Copyright 2016 Google Inc. All Rights Reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file or at
+https://github.com/firebase/polymerfire/blob/master/LICENSE
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../polymer-cookie/polymer-cookie.html">
+
+<!--
+`plutonium-oauth` is a wrapper around the Firebase authentication API. It notifies
+successful authentication, provides user information, and handles different
+types of authentication including anonymous, email / password, and several OAuth
+workflows.
+Example Usage:
+```html
+<firebase-app auth-domain="polymerfire-test.firebaseapp.com"
+  database-url="https://polymerfire-test.firebaseio.com/"
+  api-key="AIzaSyDTP-eiQezleFsV2WddFBAhF_WEzx_8v_g">
+</firebase-app>
+<plutonium-oauth id="auth" user="{{user}}" provider="google" on-error="handleError">
+</plutonium-oauth>
+```
+The `firebase-app` element initializes `app` in `plutonium-oauth` (see
+`firebase-app` documentation for more information), but an app name can simply
+be specified at `plutonium-oauth`'s `app-name` property instead.
+JavaScript sign-in calls can then be made to the `plutonium-oauth` object to
+attempt authentication, e.g.:
+```javascript
+this.$.signInWithPopup()
+    .then(function(response) {// successful authentication response here})
+    .catch(function(error) {// unsuccessful authentication response here});
+```
+This popup sign-in will then attempt to sign in using Google as an OAuth
+provider since there was no provider argument specified and since `"google"` was
+defined as the default provider.
+-->
+<dom-module id="plutonium-oauth">
+    <template>
+        <polymer-cookie 
+            id="csrfTokenCookie" 
+            name="XSRF-TOKEN" 
+            value="{{_csrfToken}}" 
+            time="1" 
+            loginFormat="m">
+        </polymer-cookie>
+        <polymer-cookie 
+            id="accessTokenCookie" 
+            name="access_token" 
+            value="{{_accessToken}}" 
+            time="1" loginFormat="m">
+        </polymer-cookie>
+        
+    </template>
+    <script>
+        (function () {
+            'use strict';
+            Polymer({
+                is: 'plutonium-oauth',
+                behaviors: [
+                ],
+                properties: {
+                    authenticationUrl: {
+                        type: String,
+                        notify: true
+                    },
+                    clientId: {
+                        type: String,
+                        notify: true
+                    },
+                    clientSecret: {
+                        type: String,
+                        notify: true
+                    },
+                    _auth: {
+                        type: String,
+                        computed: '_encodeAuth(clientId, clientSecret)'
+                    },
+                    _accessToken: {
+                        type: String,
+                        notify: true
+                    },
+                    credentials: {
+                        type: Object,
+                        notify: true
+                    },
+                    authenticationHeaders: {
+                        type: Object,
+                        notify: true,
+                        observer: '_observeAuthenticationHeaders(_auth)'
+                    },
+                    authorizationHeaders: {
+                        type: Object,
+                        notify: true,
+                        observer: '_observeAuthorizationHeaders(_accessToken)'
+                    }
+                },
+                _encodeAuth: function (clientId, clientSecret) {
+                    return btoa(clientId + ':' + clientSecret);
+                },
+                _observeAuthenticationHeaders: function (_auth) {
+                    this.authenticationHeaders = {
+                        'Authorization': 'Basic ' + _auth
+                    };
+                },
+                _observeAuthorizationHeaders: function (_accessToken) {
+                    this.authorizationHeaders = {
+                        'Authorization': 'Bearer ' + _accessToken
+                    };
+                }
+            });
+        })();
+    </script>
+</dom-module>

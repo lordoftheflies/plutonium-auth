@@ -90,10 +90,7 @@ Custom property | Description | Default
                 background-color: var(--plutonium-theme-bg-minor, --primary-background-color);
             }
         </style>
-
-        <polymer-cookie id="csrfTokenCookie" name="XSRF-TOKEN" value="{{_csrfToken}}" time="1" loginFormat="d"></polymer-cookie>
-        <polymer-cookie id="sessionTokenCookie" name="SESSION" value="{{sessionToken}}" time="1" loginFormat="d"></polymer-cookie>
-
+        
         <div class="header">
             <h1>[[domainName]]</h1>
         </div>
@@ -166,6 +163,7 @@ Custom property | Description | Default
                     notify: true,
                     value: '/login'
                 },
+                
                 /**
                  * URL for get the session object.
                  */
@@ -246,7 +244,7 @@ Custom property | Description | Default
                 this.headers = {
                     'X-Requested-With': 'XMLHttpRequest',
                     'X-XSRF-TOKEN': csrfToken,
-                    'authorization': "Basic " + btoa(username + ":" + password)
+                    'Authorization': "Basic " + btoa(username + ":" + password)
                 };
                 console.log(this.is, ' compute HTTP headers: ', this.headers);
             },
