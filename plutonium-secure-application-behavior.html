@@ -132,6 +132,9 @@
                 this.token = this.session.token;
                 this.$.tokenCookie.createCookie();
             }
+            if (SessionHandler) {
+                SessionHandler.setAccountId(this.session.token);
+            }
         },
         onSessionInitializationRequest: function (event, detail) {
             console.log(this.is + ' fetch session ...');
